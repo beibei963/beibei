@@ -1,14 +1,14 @@
 #include<stdio.h>
 #include<windows.h>
 #include<conio.h>
-//¶¨ÒåÈ«¾Ö±äÁ¿ 
-int high, width;						//¶¨Òå±ß½ç 
-int position_x, position_y;			//·É»úÎ»ÖÃ 
-int bullet_x, bullet_y;				//×Óµ¯Î»ÖÃ 
+//å®šä¹‰å…¨å±€å˜é‡ 
+int high, width;						//å®šä¹‰è¾¹ç•Œ 
+int position_x, position_y;			//é£æœºä½ç½® 
+int bullet_x, bullet_y;				//å­å¼¹ä½ç½® 
 int enemy_x, enemy_y;
 int score;
-int flag;							//·É»ú×´Ì¬ 
-void gotoxy(int x, int y)  			//¹â±êÒÆ¶¯µ½(x,y)Î»ÖÃ
+int flag;							//é£æœºçŠ¶æ€ 
+void gotoxy(int x, int y)  			//å…‰æ ‡ç§»åŠ¨åˆ°(x,y)ä½ç½®
 {
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
 	COORD pos;
@@ -16,14 +16,14 @@ void gotoxy(int x, int y)  			//¹â±êÒÆ¶¯µ½(x,y)Î»ÖÃ
 	pos.Y = y;
 	SetConsoleCursorPosition(handle, pos);
 }
-void HideCursor() // ÓÃÓÚÒş²Ø¹â±ê
+void HideCursor() // ç”¨äºéšè—å…‰æ ‡
 {
-	CONSOLE_CURSOR_INFO cursor_info = { 1, 0 };  // µÚ¶ş¸öÖµÎª0±íÊ¾Òş²Ø¹â±ê
+	CONSOLE_CURSOR_INFO cursor_info = { 1, 0 };  // ç¬¬äºŒä¸ªå€¼ä¸º0è¡¨ç¤ºéšè—å…‰æ ‡
 	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursor_info);
 }
 
 
-void startup()						//Êı¾İ³õÊ¼»¯ 
+void startup()						//æ•°æ®åˆå§‹åŒ– 
 {
 	high = 18;
 	width = 26;
@@ -39,11 +39,11 @@ void startup()						//Êı¾İ³õÊ¼»¯
 
 	score = 0;
 
-	flag = 0;							//·É»úÍêºÃ 
+	flag = 0;							//é£æœºå®Œå¥½ 
 
 	HideCursor();
 }
-void show()							//ÏÔÊ¾½çÃæ 
+void show()							//æ˜¾ç¤ºç•Œé¢ 
 {
 	int i, j;
 	for (i = 0; i < high; i++)
@@ -53,13 +53,13 @@ void show()							//ÏÔÊ¾½çÃæ
 			if (flag)
 				break;
 
-			else if ((i == position_x) && (j == position_y))		//·É»ú×ø±ê 
+			else if ((i == position_x) && (j == position_y))		//é£æœºåæ ‡ 
 				printf("*");
-			else if ((i == enemy_x) && (j == enemy_y))				//µĞ»ú×ø±ê 
+			else if ((i == enemy_x) && (j == enemy_y))				//æ•Œæœºåæ ‡ 
 				printf("*");
-			else if ((i == bullet_x) && (j == bullet_y))			//×Óµ¯×ø±ê 
+			else if ((i == bullet_x) && (j == bullet_y))			//å­å¼¹åæ ‡ 
 				printf("|");
-			else if ((j == width - 1) || (i == high - 1) || (j == 0) || (i == 0))				//´òÓ¡±ß½ç 
+			else if ((j == width - 1) || (i == high - 1) || (j == 0) || (i == 0))				//æ‰“å°è¾¹ç•Œ 
 				printf("#");
 			else
 				printf(" ");
@@ -69,18 +69,18 @@ void show()							//ÏÔÊ¾½çÃæ
 	printf("\n");
 	if ((position_x == enemy_x) && (position_y == enemy_y))
 	{
-		flag = 1;							//·É»ú×²»Ù ÓÎÏ·½áÊø 
-		printf("µÃ·Ö: %d\n", score);
-		printf("ÓÎÏ·½áÊø");
+		flag = 1;							//é£æœºæ’æ¯ æ¸¸æˆç»“æŸ 
+		printf("å¾—åˆ†: %d\n", score);
+		printf("æ¸¸æˆç»“æŸ");
 	}
 	else
-		printf("µÃ·Ö: %d\n", score);
+		printf("å¾—åˆ†: %d\n", score);
 }
-void withoutInpute()						//ÓëÓÃ»§ÊäÈëÎŞ¹Ø
+void withoutInpute()						//ä¸ç”¨æˆ·è¾“å…¥æ— å…³
 {
-	if (bullet_x > 0)							//×Óµ¯ÉÏÉıĞ§¹û 
+	if (bullet_x > 0)							//å­å¼¹ä¸Šå‡æ•ˆæœ 
 		bullet_x--;
-	if ((bullet_x == enemy_x) && (bullet_y == enemy_y))		//×Óµ¯ÃüÖĞµĞ»ú 
+	if ((bullet_x == enemy_x) && (bullet_y == enemy_y))		//å­å¼¹å‘½ä¸­æ•Œæœº 
 	{
 		score++;
 		bullet_x = -1;
@@ -90,7 +90,7 @@ void withoutInpute()						//ÓëÓÃ»§ÊäÈëÎŞ¹Ø
 
 
 	static int speed;
-	if (speed < 30)					//¼õÂıµĞ»úËÙ¶È£¬²»Ó°Ïì·É»úºÍ×Óµ¯ËÙ¶È 
+	if (speed < 30)					//å‡æ…¢æ•Œæœºé€Ÿåº¦ï¼Œä¸å½±å“é£æœºå’Œå­å¼¹é€Ÿåº¦ 
 		speed++;
 	if (speed == 30)
 	{
@@ -108,10 +108,10 @@ void withoutInpute()						//ÓëÓÃ»§ÊäÈëÎŞ¹Ø
 
 
 }
-void withInpute()						//ÓëÓÃ»§ÊäÈëÓĞ¹Ø 
+void withInpute()						//ä¸ç”¨æˆ·è¾“å…¥æœ‰å…³ 
 {
 	char input;
-	if (_kbhit())										//¿ØÖÆ·É»ú·½Ïò
+	if (_kbhit())										//æ§åˆ¶é£æœºæ–¹å‘
 	{
 		input = _getch();
 		if ((input == 'w') && position_x > 1)
@@ -132,12 +132,12 @@ void withInpute()						//ÓëÓÃ»§ÊäÈëÓĞ¹Ø
 int main()
 {
 	system("color 2f");
-	startup();					// Êı¾İ³õÊ¼»¯
-	while (1)					//  ÓÎÏ·Ñ­»·Ö´ĞĞ
+	startup();					// æ•°æ®åˆå§‹åŒ–
+	while (1)					//  æ¸¸æˆå¾ªç¯æ‰§è¡Œ
 	{
 		gotoxy(0, 0);
-		show();					// ÏÔÊ¾»­Ãæ
-		withoutInpute();		// ÓëÓÃ»§ÊäÈëÎŞ¹ØµÄ¸üĞÂ
-		withInpute();			// ÓëÓÃ»§ÊäÈëÓĞ¹ØµÄ¸üĞÂ
+		show();					// æ˜¾ç¤ºç”»é¢
+		withoutInpute();		// ä¸ç”¨æˆ·è¾“å…¥æ— å…³çš„æ›´æ–°
+		withInpute();			// ä¸ç”¨æˆ·è¾“å…¥æœ‰å…³çš„æ›´æ–°
 	}
 }
